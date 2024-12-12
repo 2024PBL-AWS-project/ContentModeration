@@ -5,6 +5,3 @@
 *.pyo
 *.pyd
 __pycache__
-
-
-lambda_package
