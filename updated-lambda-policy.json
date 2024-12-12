@@ -1,0 +1,42 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "rekognition:CreateStreamProcessor",
+                "rekognition:StartStreamProcessor",
+                "rekognition:DeleteStreamProcessor",
+                "rekognition:ListStreamProcessors",
+                "rekognition:DescribeStreamProcessor"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesisvideo:GetDataEndpoint",
+                "kinesisvideo:GetMedia",
+                "kinesisvideo:DescribeStream"
+            ],
+            "Resource": "arn:aws:kinesisvideo:us-west-2:794038244518:stream/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesis:PutRecord",
+                "kinesis:PutRecords"
+            ],
+            "Resource": "arn:aws:kinesis:us-west-2:794038244518:stream/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:DescribeAlarms"
+            ],
+            "Resource": "*"
+        }
+    ]
+} 

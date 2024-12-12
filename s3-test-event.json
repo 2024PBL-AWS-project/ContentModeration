@@ -1,0 +1,14 @@
+{
+    "Records": [
+        {
+            "s3": {
+                "bucket": {
+                    "name": "content-moderation-images-794038244518"
+                },
+                "object": {
+                    "key": "test-image.jpg"
+                }
+            }
+        }
+    ]
+}

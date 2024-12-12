@@ -1,0 +1,17 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "events:PutRule",
+                "events:PutTargets",
+                "events:DeleteRule",
+                "events:RemoveTargets",
+                "events:ListRules",
+                "events:ListTargetsByRule"
+            ],
+            "Resource": "arn:aws:events:us-west-2:794038244518:rule/*"
+        }
+    ]
+} 

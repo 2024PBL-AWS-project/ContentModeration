@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "rekognition:DetectModerationLabels",
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:rekognition:us-west-2:794038244518:*",
+                "arn:aws:s3:::*/*"
+            ]
+        }
+    ]
+} 

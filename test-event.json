@@ -1,0 +1,13 @@
+{
+    "Records": [
+        {
+            "ImageId": "test-image-1",
+            "ModerationLabels": [
+                {
+                    "Name": "Explicit Content",
+                    "Confidence": 85.5
+                }
+            ]
+        }
+    ]
+}

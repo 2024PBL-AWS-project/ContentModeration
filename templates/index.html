@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Content Moderation Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .video-feed, .results {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 100%;
+            border-radius: 4px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        .alert.warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+        }
+        .label-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+        .confidence-high {
+            border-left: 4px solid #dc3545;
+            background: #fff5f5;
+        }
+        .confidence-medium {
+            border-left: 4px solid #ffc107;
+            background: #fff9e6;
+        }
+        .confidence-low {
+            border-left: 4px solid #28a745;
+            background: #f0fff4;
+        }
+        .stats {
+            background: #e9ecef;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .stats span {
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Content Moderation Dashboard</h1>
+    <div class="container">
+        <div class="video-feed">
+            <h2>Live Camera Feed</h2>
+            <div class="stats">
+                Processed frames: <span id="frameCount">0</span>
+                <br>
+                Last processed: <span id="lastProcessed">Never</span>
+            </div>
+            <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        </div>
+        <div class="results">
+            <h2>Moderation Results</h2>
+            <div id="alert" class="alert warning" style="display: none;">
+                Content concerns detected
+            </div>
+            <div id="moderationResults">
+                Processing...
+            </div>
+            <div class="stats">
+                Frame: <span id="frameCount">0</span>
+                Last processed: <span id="lastProcessed">-</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <canvas id="moderationChart"></canvas>
+        <div class="stats-summary">
+            <div id="totalFrames">Total Frames: 0</div>
+            <div id="alertCount">Alerts: 0</div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</body>
+</html> 

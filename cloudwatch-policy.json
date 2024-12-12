@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:us-west-2:794038244518:log-group:/aws/content-moderation-dashboard:*",
+                "arn:aws:logs:us-west-2:794038244518:log-group:/aws/content-moderation-dashboard:log-stream:*",
+                "arn:aws:logs:us-west-2:794038244518:log-group:/aws/content-moderation-dashboard"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "rekognition:CreateStreamProcessor",
+                "rekognition:StartStreamProcessor",
+                "rekognition:StopStreamProcessor",
+                "rekognition:DeleteStreamProcessor",
+                "rekognition:ListStreamProcessors",
+                "rekognition:DescribeStreamProcessor",
+                "rekognition:DetectModerationLabels"
+            ],
+            "Resource": [
+                "arn:aws:rekognition:us-west-2:794038244518:streamprocessor/*",
+                "arn:aws:rekognition:us-west-2:794038244518:collection/*"
+            ]
+        }
+    ]
+} 

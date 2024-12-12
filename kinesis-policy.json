@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesisvideo:CreateStream",
+                "kinesisvideo:GetDataEndpoint",
+                "kinesisvideo:GetMedia",
+                "kinesisvideo:ListStreams",
+                "rekognition:StartContentModeration"
+            ],
+            "Resource": [
+                "arn:aws:kinesisvideo:us-west-2:794038244518:stream/*",
+                "arn:aws:rekognition:us-west-2:794038244518:*"
+            ]
+        }
+    ]
+}

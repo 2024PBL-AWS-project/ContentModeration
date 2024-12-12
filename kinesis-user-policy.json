@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesis:CreateStream",
+                "kinesis:DeleteStream",
+                "kinesis:DescribeStream",
+                "kinesis:ListStreams",
+                "kinesis:PutRecord",
+                "kinesis:PutRecords",
+                "kinesis:GetRecords",
+                "kinesis:GetShardIterator"
+            ],
+            "Resource": "arn:aws:kinesis:us-west-2:794038244518:stream/*"
+        }
+    ]
+} 

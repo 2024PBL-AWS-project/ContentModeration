@@ -1,0 +1,106 @@
+.label-item {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.confidence-high {
+    border-left: 4px solid #dc3545;
+    background-color: #fff5f5;
+}
+
+.confidence-medium {
+    border-left: 4px solid #ffc107;
+    background-color: #fff9e6;
+}
+
+.confidence-low {
+    border-left: 4px solid #28a745;
+    background-color: #f0fff4;
+}
+
+.safe {
+    border-left: 4px solid #28a745;
+    color: #28a745;
+}
+
+.error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.timestamp {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.progress {
+    height: 6px;
+    margin-top: 5px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+}
+
+.progress-bar {
+    background-color: #007bff;
+    border-radius: 3px;
+}
+
+.confidence {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+#alert {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.dashboard-container {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stats-summary {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.stats-summary div {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+#moderationChart {
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
+}
+
+.alert-active {
+    color: #dc3545;
+    font-weight: bold;
+    animation: pulse 1s;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+} 
