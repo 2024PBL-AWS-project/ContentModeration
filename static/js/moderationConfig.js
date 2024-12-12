@@ -1,0 +1,92 @@
+export const MODERATION_CATEGORIES = [
+  {
+    id: "ExplicitNudity",
+    label: "Explicit Nudity",
+    borderColor: "rgb(255, 99, 132)",
+    threshold: 30,
+  },
+  {
+    id: "ExplicitSexualActivity",
+    label: "Explicit Sexual Activity",
+    borderColor: "rgb(255, 69, 0)",
+    threshold: 30,
+  },
+  {
+    id: "SexToys",
+    label: "Sex Toys",
+    borderColor: "rgb(255, 20, 147)",
+    threshold: 30,
+  },
+  {
+    id: "NonExplicitNudity",
+    label: "Non-Explicit Nudity",
+    borderColor: "rgb(54, 162, 235)",
+    threshold: 30,
+  },
+  {
+    id: "ObstructedIntimateParts",
+    label: "Obstructed Intimate Parts",
+    borderColor: "rgb(75, 192, 192)",
+    threshold: 30,
+  },
+  {
+    id: "Kissing",
+    label: "Kissing",
+    borderColor: "rgb(255, 159, 64)",
+    threshold: 30,
+  },
+  {
+    id: "SwimwearUnderwear",
+    label: "Swimwear/Underwear",
+    borderColor: "rgb(153, 102, 255)",
+    threshold: 30,
+  },
+  {
+    id: "Violence",
+    label: "Violence",
+    borderColor: "rgb(255, 205, 86)",
+    threshold: 30,
+  },
+  {
+    id: "GraphicViolence",
+    label: "Graphic Violence",
+    borderColor: "rgb(201, 203, 207)",
+    threshold: 30,
+  },
+  {
+    id: "DisturbingContent",
+    label: "Disturbing Content",
+    borderColor: "rgb(100, 149, 237)",
+    threshold: 30,
+  },
+  {
+    id: "DrugsTobacco",
+    label: "Drugs & Tobacco",
+    borderColor: "rgb(255, 69, 0)",
+    threshold: 30,
+  },
+  {
+    id: "Alcohol",
+    label: "Alcohol",
+    borderColor: "rgb(255, 140, 0)",
+    threshold: 30,
+  },
+  {
+    id: "RudeGestures",
+    label: "Rude Gestures",
+    borderColor: "rgb(255, 215, 0)",
+    threshold: 30,
+  },
+  {
+    id: "Gambling",
+    label: "Gambling",
+    borderColor: "rgb(0, 191, 255)",
+    threshold: 30,
+  },
+  {
+    id: "HateSymbols",
+    label: "Hate Symbols",
+    borderColor: "rgb(255, 0, 0)",
+    threshold: 30,
+  },
+];
