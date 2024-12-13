@@ -199,6 +199,9 @@ def generate_frames():
     if not hasattr(generate_frames, 'cap'):
         generate_frames.cap = cv2.VideoCapture(0)
         generate_frames.frame_count = 0
+        
+        # fps = generate_frames.cap.get(cv2.CAP_PROP_FPS)
+        # print(f"Frames per second: {fps}") # 30
     
     if not generate_frames.cap.isOpened():
         logger.error("Failed to open camera")
@@ -210,8 +213,8 @@ def generate_frames():
         if not ret:
             break
             
-        # Process every 15th frame
-        if generate_frames.frame_count % 15 == 0:
+        # Process every 30th frame == 1 frame per second
+        if generate_frames.frame_count % 30 == 0:
             process_frame(frame)
         
         generate_frames.frame_count += 1
