@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Content Moderation Dashboard</title>
+    <title>AWS Content Moderation Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://aws.amazon.com/favicon.ico">
+    <link rel="stylesheet" href="https://fonts.amazonaws.com/css?family=Amazon+Ember:400,500,700">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,12 +85,25 @@
         }
     </style>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1001.0.min.js"></script>
-    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/results.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Content Moderation Dashboard</h1>
+    <nav class="top-nav">
+        <div class="nav-content">
+            <h1>
+                <img src="https://d1.awsstatic.com/logos/aws-logo-lockups/poweredbyaws/PB_AWS_logo_RGB_stacked_REV_SQ.91cd4af40773cbfbd15577a3c2b8a346fe3e8fa2.png" alt="AWS Logo" class="aws-logo">
+                Content Moderation Dashboard
+            </h1>
+            <div class="moderator-controls">
+                <span class="moderator-badge">
+                    <i class="fas fa-user-shield"></i> AWS Moderator
+                </span>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <div class="video-feed">
             <h2>Live Camera Feed</h2>
@@ -118,8 +136,5 @@
             <div id="alertCount">Alerts: 0</div>
         </div>
     </div>
-
-    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </body>
 </html> 

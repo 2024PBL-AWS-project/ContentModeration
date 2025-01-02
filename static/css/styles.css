@@ -1,3 +1,91 @@
+:root {
+  --aws-primary: #232f3e;      /* AWS Navy */
+  --aws-secondary: #ff9900;    /* AWS Orange */
+  --aws-accent: #0073bb;       /* AWS Blue */
+  --aws-light: #f2f3f3;       /* AWS Light Gray */
+  --aws-dark: #161e2d;        /* AWS Dark Navy */
+  --aws-success: #1b8102;     /* AWS Green */
+  --aws-warning: #ff9900;     /* AWS Warning Orange */
+  --aws-danger: #d13212;      /* AWS Red */
+  --aws-border: #d5dbdb;      /* AWS Border Gray */
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Amazon Ember', 'Inter', sans-serif;
+  background: var(--aws-light);
+  color: var(--aws-primary);
+}
+
+.top-nav {
+  background: var(--aws-primary);
+  padding: 0.8rem 2rem;
+}
+
+.nav-content h1 {
+  color: white;
+}
+
+.aws-logo {
+  height: 32px;
+  margin-right: 1rem;
+}
+
+.moderator-badge {
+  background: var(--aws-secondary);
+  color: var(--aws-primary);
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--aws-accent);
+  border: 1px solid var(--aws-accent);
+}
+
+.btn-primary:hover {
+  background: #005b95;
+  border-color: #005b95;
+}
+
+.btn-danger {
+  background: var(--aws-danger);
+  border: 1px solid var(--aws-danger);
+}
+
+.btn-secondary {
+  background: white;
+  border: 1px solid var(--aws-border);
+  color: var(--aws-primary);
+}
+
+.card-header {
+  background: #fafafa;
+  border-bottom: 1px solid var(--aws-border);
+}
+
+.stats {
+  background: var(--aws-light);
+  border: 1px solid var(--aws-border);
+}
+
+.highlight {
+  color: var(--aws-accent);
+}
+
+.alert.warning {
+  background: rgba(255, 153, 0, 0.1);
+  border: 1px solid var(--aws-warning);
+  color: var(--aws-primary);
+}
+
+.chart-container, .summary-card {
+  border: 1px solid var(--aws-border);
+}
+
+.summary-card i {
+  color: var(--aws-secondary);
+}
+
 .label-item {
     padding: 15px;
     margin: 10px 0;

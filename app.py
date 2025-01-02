@@ -69,7 +69,23 @@ except Exception as e:
             {'AttributeName': 'ImageId', 'KeyType': 'HASH'}
         ],
         AttributeDefinitions=[
-            {'AttributeName': 'ImageId', 'AttributeType': 'S'}
+            {'AttributeName': 'ImageId', 'AttributeType': 'S'},
+            {'AttributeName': 'timestamp', 'AttributeType': 'S'}
+        ],
+        GlobalSecondaryIndexes=[
+            {
+                'IndexName': 'TimestampIndex',
+                'KeySchema': [
+                    {'AttributeName': 'timestamp', 'KeyType': 'HASH'},
+                ],
+                'Projection': {
+                    'ProjectionType': 'ALL'
+                },
+                'ProvisionedThroughput': {
+                    'ReadCapacityUnits': 5,
+                    'WriteCapacityUnits': 5
+                }
+            }
         ],
         ProvisionedThroughput={
             'ReadCapacityUnits': 5,
@@ -139,25 +155,25 @@ def process_frame(frame):
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
         
-        try:
-            response = rekognition.detect_moderation_labels(
-                Image={'Bytes': frame_bytes},
-                MinConfidence=20.0
-            )
-            logger.info(f"Rekognition response: {response}")
-        except Exception as e:
-            logger.error(f"Rekognition error: {e}")
-            return
-            
-        formatted_labels = []
-        if 'ModerationLabels' in response and response['ModerationLabels']:
-            put_metric_data('FlaggedContent', 1)
-            for label in response['ModerationLabels']:
-                formatted_labels.append({
-                    'Name': label['Name'],
-                    'Confidence': Decimal(str(label['Confidence']))
-                })
-                logger.info(f"Found label: {label['Name']} with confidence {label['Confidence']}")
+        response = rekognition.detect_moderation_labels(
+            Image={'Bytes': frame_bytes},
+            MinConfidence=20.0
+        )
+        
+        logger.debug(f"Rekognition Response: {response}")
+        put_metric_data("FlaggedContent",1)
+        formatted_labels = [
+            {
+                'Name': label['Name'],
+                'Confidence': Decimal(str(label['Confidence']))
+            }
+            for label in response['ModerationLabels']
+        ]
+        
+        for label in formatted_labels:
+            logger.debug(f"Found label: {label['Name']} with confidence {label['Confidence']}")
+
+        is_flagged = len(formatted_labels) > 0
         
         # Store in DynamoDB
         try:
@@ -167,43 +183,60 @@ def process_frame(frame):
                 'timestamp': current_time,
                 'created_at': current_time,
                 'labels': formatted_labels,
-                'status': 'ok' if not response.get('ModerationLabels') else 'flagged'
+                'status': 'flagged' if is_flagged else 'ok'
             })
-            logger.info("Successfully stored results in DynamoDB")
+            logger.info(f"Successfully stored results in DynamoDB (flagged: {is_flagged})")
         except Exception as e:
             logger.error(f"DynamoDB error: {e}")
             
-        if response.get('ModerationLabels'):
+        if is_flagged:
             send_moderation_metrics(response['ModerationLabels'])
             
     except Exception as e:
         logger.error(f"Error processing frame: {str(e)}")
 
 def generate_frames():
-    if not hasattr(generate_frames, 'cap'):
-        generate_frames.cap = cv2.VideoCapture(0)
-        generate_frames.frame_count = 0
-    
-    if not generate_frames.cap.isOpened():
-        logger.error("Failed to open camera")
-        return
-    logger.info("Camera opened successfully")
-    
-    while True:
-        ret, frame = generate_frames.cap.read()
-        if not ret:
-            break
+    try:
+        if not hasattr(generate_frames, 'cap'):
+            # Try different camera indices if 0 doesn't work
+            for camera_index in range(3):  # Try indices 0, 1, 2
+                generate_frames.cap = cv2.VideoCapture(camera_index)
+                if generate_frames.cap.isOpened():
+                    logger.info(f"Camera opened successfully on index {camera_index}")
+                    break
             
-        # Process every 15th frame
-        if generate_frames.frame_count % 15 == 0:
-            process_frame(frame)
+            if not generate_frames.cap.isOpened():
+                logger.error("Failed to open camera on any index")
+                return
+            
+            # Set camera properties
+            generate_frames.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            generate_frames.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+            generate_frames.cap.set(cv2.CAP_PROP_FPS, 30)
+            generate_frames.frame_count = 0
         
-        generate_frames.frame_count += 1
-        
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        while True:
+            ret, frame = generate_frames.cap.read()
+            if not ret:
+                logger.error("Failed to read frame")
+                # Try to reinitialize camera
+                generate_frames.cap.release()
+                generate_frames.cap = cv2.VideoCapture(0)
+                continue
+                
+            if generate_frames.frame_count % 30 == 0:
+                process_frame(frame)
+            
+            generate_frames.frame_count += 1
+            
+            _, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                   
+    except Exception as e:
+        logger.error(f"Camera error: {str(e)}")
+        yield b''
 
 @app.route('/')
 def index():
@@ -215,28 +248,46 @@ def index():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(generate_frames(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    try:
+        return Response(generate_frames(),
+                       mimetype='multipart/x-mixed-replace; boundary=frame')
+    except Exception as e:
+        logger.error(f"Video feed error: {str(e)}")
+        return "Camera error", 500
 
 @app.route('/get_results')
 def get_results():
     try:
-        response = table.scan(Limit=10)
+        # 현재 시간부터 과거 방향으로 검색
+        current_time = datetime.now().isoformat()
+        one_day_ago = (datetime.now() - timedelta(days=1)).isoformat()
+        
+        # 먼저 scan으로 시도
+        response = table.scan(
+            FilterExpression='#ts BETWEEN :start_ts AND :end_ts',
+            ExpressionAttributeNames={
+                '#ts': 'timestamp'
+            },
+            ExpressionAttributeValues={
+                ':start_ts': one_day_ago,
+                ':end_ts': current_time
+            }
+        )
+        
         items = response.get('Items', [])
         
-        # Debug log
-        logger.debug(f"Retrieved items: {items}")
+        # 시간순 정렬
+        items.sort(key=lambda x: x['timestamp'], reverse=True)
+        items = items[:10]  # 최근 10개만
         
-        # Convert Decimal to float
+        # Decimal을 float로 변환
         for item in items:
             if 'labels' in item:
                 for label in item['labels']:
                     if 'Confidence' in label:
                         label['Confidence'] = float(label['Confidence'])
         
-        result = jsonify(items)
-        logger.debug(f"Returning JSON: {result.get_data(as_text=True)}")
-        return result
+        return jsonify(items)
     except Exception as e:
         logger.error(f"Error in get_results: {e}")
         return jsonify([])

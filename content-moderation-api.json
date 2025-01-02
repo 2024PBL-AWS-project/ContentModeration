@@ -1,0 +1,90 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Content Moderation API",
+        "version": "1.0.0",
+        "description": "AWS Rekognition-based content moderation API",
+        "x-api-id": "a5014713-bfe9-47e4-a540-7d7e2397f16b"
+    },
+    "servers": [
+        {
+            "url": "https://a5014713-bfe9-47e4-a540-7d7e2397f16b.execute-api.us-west-2.amazonaws.com/prod",
+            "description": "Production API Gateway"
+        }
+    ],
+    "paths": {
+        "/analyze": {
+            "post": {
+                "summary": "Analyze image content",
+                "operationId": "analyzeImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful analysis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnalysisResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ModerationLabel": {
+                "type": "object",
+                "properties": {
+                    "Name": {
+                        "type": "string"
+                    },
+                    "Confidence": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                }
+            },
+            "AnalysisResult": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "labels": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ModerationLabel"
+                        }
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["ok", "flagged"]
+                    }
+                }
+            }
+        }
+    }
+}
