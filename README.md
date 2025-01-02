@@ -13,10 +13,8 @@
 <div align="center">
   <h3>🎥 Live Demo</h3>
   
-  <video width="800" controls>
-    <source src="static/github/aws_moderation.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- Using GitHub video URL format -->
+  https://github.com/2024PBL-AWS-project/ContentModeration/assets/aws_moderation_compressed.mp4
   
   <h3>📊 Dashboard Interface</h3>
   
