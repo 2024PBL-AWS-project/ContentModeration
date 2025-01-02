@@ -13,8 +13,13 @@
 <div align="center">
   <h3>🎥 Live Demo</h3>
   
-  <!-- Using GitHub issue assets URL format with user ID -->
-  https://github.com/2024PBL-AWS-project/ContentModeration/assets/2766612407/aws_moderation_compressed
+  <!-- Embed the video using HTML5 video tag -->
+  <video width="800" controls>
+    <source src="https://user-images.githubusercontent.com/2766612407/aws_moderation_compressed.mp4" type="video/mp4">
+  </video>
+  
+  <!-- Or try with direct issue link -->
+  [View Demo Video](https://github.com/2024PBL-AWS-project/ContentModeration/issues/1)
   
   <h3>📊 Dashboard Interface</h3>
   
