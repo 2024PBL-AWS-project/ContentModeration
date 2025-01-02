@@ -196,24 +196,26 @@ def process_frame(frame):
         logger.error(f"Error processing frame: {str(e)}")
 
 def generate_frames():
-    try:
-        if not hasattr(generate_frames, 'cap'):
-            # Try different camera indices if 0 doesn't work
-            for camera_index in range(3):  # Try indices 0, 1, 2
-                generate_frames.cap = cv2.VideoCapture(camera_index)
-                if generate_frames.cap.isOpened():
-                    logger.info(f"Camera opened successfully on index {camera_index}")
-                    break
+    if not hasattr(generate_frames, 'cap'):
+        generate_frames.cap = cv2.VideoCapture(0)
+        generate_frames.frame_count = 0
+        
+        # fps = generate_frames.cap.get(cv2.CAP_PROP_FPS)
+        # print(f"Frames per second: {fps}") # 30
+    
+    if not generate_frames.cap.isOpened():
+        logger.error("Failed to open camera")
+        return
+    logger.info("Camera opened successfully")
+    
+    while True:
+        ret, frame = generate_frames.cap.read()
+        if not ret:
+            break
             
-            if not generate_frames.cap.isOpened():
-                logger.error("Failed to open camera on any index")
-                return
-            
-            # Set camera properties
-            generate_frames.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-            generate_frames.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-            generate_frames.cap.set(cv2.CAP_PROP_FPS, 30)
-            generate_frames.frame_count = 0
+        # Process every 30th frame == 1 frame per second
+        if generate_frames.frame_count % 30 == 0:
+            process_frame(frame)
         
         while True:
             ret, frame = generate_frames.cap.read()

@@ -33,35 +33,11 @@ function initializeChart() {
         y: {
           beginAtZero: true,
           max: 100,
-          grid: {
-            color: '#d5dbdb'
-          },
-          ticks: {
-            color: '#232f3e'
-          },
           title: {
             display: true,
             text: "Confidence Level (%)",
           },
         },
-        x: {
-          grid: {
-            color: '#d5dbdb'
-          },
-          ticks: {
-            color: '#232f3e'
-          }
-        }
-      },
-      plugins: {
-        legend: {
-          labels: {
-            color: '#232f3e',
-            font: {
-              family: 'Amazon Ember'
-            }
-          }
-        }
       },
       animation: {
         duration: 0,
