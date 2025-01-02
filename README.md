@@ -13,8 +13,8 @@
 <div align="center">
   <h3>🎥 Live Demo</h3>
   
-  <!-- Using GitHub video URL format -->
-  https://github.com/2024PBL-AWS-project/ContentModeration/assets/aws_moderation_compressed.mp4
+  <!-- Using GitHub issue assets URL format -->
+  https://github.com/2024PBL-AWS-project/ContentModeration/assets/2766612407/aws_moderation_compressed.mp4
   
   <h3>📊 Dashboard Interface</h3>
   
